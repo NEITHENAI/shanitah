@@ -165,7 +165,7 @@ body {
   background: rgba(142, 68, 173, 0.1);
   color: var(--primary-color);
   border: 1px solid rgba(142, 68, 173, 0.2);
-  padding: 0.75rem 1.5rem;
+  padding: 0.5rem 1.2rem;
   border-radius: 1.5rem;
   font-weight: 600;
   font-family: inherit;
@@ -344,9 +344,20 @@ body {
   transition: var(--transition-smooth);
 }
 
-.stat-card:hover {
-  transform: translateY(-5px);
+.clickable-card {
+  cursor: pointer;
+  user-select: none;
+}
+
+.clickable-card:hover {
+  transform: translateY(-8px) scale(1.03);
   box-shadow: var(--shadow-bubble);
+  border-color: var(--primary-light);
+}
+
+.clickable-card:active {
+  transform: translateY(-2px) scale(0.98);
+  box-shadow: var(--shadow-sm);
 }
 
 .stat-icon {

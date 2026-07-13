@@ -29,6 +29,7 @@
       <a href="#about" class="nav-link active">Home</a>
       <a href="#gallery" class="nav-link">Album</a>
       <a href="#wishes" class="nav-link">Wishes</a>
+      <button class="btn-secondary hidden" id="logoutBtn">Logout</button>
       <!-- Cake button only, she knows what to do -->
       <button class="btn-cake" id="loginTrigger" aria-label="Secret Portal">🎂</button>
     </nav>
@@ -69,23 +70,23 @@
     <section class="section stats-section">
       <div class="section-header">
         <h2>Live Celebrations Tracker</h2>
-        <p>Watch the love grow in real-time!</p>
+        <p>Click any card below to send some love!</p>
       </div>
       <div class="stats-grid">
-        <div class="stat-card">
+        <div class="stat-card clickable-card" id="viewsStatCard" title="Click to view">
           <div class="stat-icon">👁️</div>
           <div class="stat-value" id="viewCount">0</div>
-          <div class="stat-label">Gradual Live Views</div>
+          <div class="stat-label">Views</div>
         </div>
-        <div class="stat-card">
+        <div class="stat-card clickable-card" id="wishesStatCard" title="Click to wish">
           <div class="stat-icon">🎂</div>
           <div class="stat-value" id="wishCount">0</div>
-          <div class="stat-label">Wishes Sent</div>
+          <div class="stat-label">Wishes</div>
         </div>
-        <div class="stat-card">
+        <div class="stat-card clickable-card" id="crushStatCard" title="Click to crush">
           <div class="stat-icon">💥</div>
           <div class="stat-value" id="crashCount">0</div>
-          <div class="stat-label">Hearts Crashed / Crushes</div>
+          <div class="stat-label">Crush</div>
         </div>
       </div>
     </section>

@@ -41,6 +41,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initSliderControls();
   initLoginForm();
   initWishSubmission();
+  initLogout();
+  initClickableStats();
 });
 
 // 1. Generate bubbles
@@ -60,7 +62,7 @@ function generateFloatingBubbles() {
   }
 }
 
-// 2. Stats Dashboard Realtime & Simulation Auto-increase
+// 2. Stats Dashboard Realtime Sync (NO auto-simulation increments anymore)
 function initStatsSync() {
   const viewEl = document.getElementById('viewCount');
   const wishEl = document.getElementById('wishCount');
@@ -83,34 +85,31 @@ function initStatsSync() {
     wishEl.textContent = STATE.wishesCount >= 700 ? '700+' : STATE.wishesCount;
     crashEl.textContent = STATE.crashesCount >= 300 ? '300+' : STATE.crashesCount;
   });
-
-  // Views increment simulation: caps at 1200
-  setInterval(() => {
-    if (STATE.views < 1200) {
-      const inc = Math.floor(Math.random() * 3) + 1;
-      const nextVal = Math.min(STATE.views + inc, 1200);
-      statsDocRef.update({ views: nextVal }).catch(e => console.warn(e));
-    }
-  }, 10000);
-
-  // Wishes increment simulation: caps at 700
-  setInterval(() => {
-    if (STATE.wishesCount < 700) {
-      const nextVal = Math.min(STATE.wishesCount + 1, 700);
-      statsDocRef.update({ wishesCount: nextVal }).catch(e => console.warn(e));
-    }
-  }, 60000);
-
-  // Crashes increment simulation: caps at 300
-  setInterval(() => {
-    if (STATE.crashesCount < 300) {
-      const nextVal = Math.min(STATE.crashesCount + 1, 300);
-      statsDocRef.update({ crashesCount: nextVal }).catch(e => console.warn(e));
-    }
-  }, 90000);
 }
 
-// 3. Sync Wishes from Firestore in real-time
+// 3. Click to increment stats (Adds 1 to Firestore on click)
+function initClickableStats() {
+  const viewsCard = document.getElementById('viewsStatCard');
+  const wishesCard = document.getElementById('wishesStatCard');
+  const crushCard = document.getElementById('crushStatCard');
+
+  viewsCard.addEventListener('click', () => {
+    const nextVal = STATE.views + 1;
+    statsDocRef.update({ views: nextVal }).catch(e => console.warn(e));
+  });
+
+  wishesCard.addEventListener('click', () => {
+    const nextVal = STATE.wishesCount + 1;
+    statsDocRef.update({ wishesCount: nextVal }).catch(e => console.warn(e));
+  });
+
+  crushCard.addEventListener('click', () => {
+    const nextVal = STATE.crashesCount + 1;
+    statsDocRef.update({ crashesCount: nextVal }).catch(e => console.warn(e));
+  });
+}
+
+// 4. Sync Wishes from Firestore in real-time
 function initWishesSync() {
   const wishesList = document.getElementById('wishesList');
   db.collection("wishes").orderBy("timestamp", "desc").onSnapshot((snapshot) => {
@@ -144,7 +143,7 @@ function initWishesSync() {
   });
 }
 
-// 4. Sync Photos from Firestore in real-time
+// 5. Sync Photos from Firestore in real-time
 function initPhotosSync() {
   db.collection("photos").orderBy("timestamp", "asc").onSnapshot((snapshot) => {
     STATE.photos = [];
@@ -217,7 +216,7 @@ function initSliderControls() {
   }, 6000);
 }
 
-// 5. Submit Wishes
+// 6. Submit Wishes
 function initWishSubmission() {
   const wishForm = document.getElementById('wishForm');
   wishForm.addEventListener('submit', async (e) => {
@@ -237,7 +236,7 @@ function initWishSubmission() {
       });
 
       // Increment Wishes count in Firestore
-      const nextWishes = Math.min(STATE.wishesCount + 1, 700);
+      const nextWishes = STATE.wishesCount + 1;
       await statsDocRef.update({ wishesCount: nextWishes });
 
       // Clear Form
@@ -250,7 +249,7 @@ function initWishSubmission() {
   });
 }
 
-// 6. Login & Authenticated Views
+// 7. Login & Authenticated Views
 function initLoginForm() {
   const loginTrigger = document.getElementById('loginTrigger');
   const loginModal = document.getElementById('loginModal');
@@ -286,6 +285,7 @@ function initLoginForm() {
       STATE.currentUser = 'admin';
       localStorage.setItem('birthday_user', 'admin');
       setupAdminView();
+      loginModal.classList.remove('show');
     } else {
       loginError.textContent = 'Incorrect credentials. Try again!';
     }
@@ -308,8 +308,10 @@ function setupShanitahView() {
   const container = document.getElementById('specialMessageContainer');
   const unlockBtn = document.getElementById('unlockMsgBtn');
   const secretLetter = document.getElementById('secretLetter');
+  const logoutBtn = document.getElementById('logoutBtn');
   
   container.classList.remove('hidden');
+  logoutBtn.classList.remove('hidden');
 
   unlockBtn.addEventListener('click', () => {
     secretLetter.classList.remove('hidden');
@@ -324,6 +326,7 @@ function setupAdminView() {
   document.getElementById('loginView').classList.add('hidden');
   document.getElementById('adminDashboardView').classList.remove('hidden');
   document.getElementById('loginTrigger').textContent = '🎂🛠️';
+  document.getElementById('logoutBtn').classList.remove('hidden');
 
   // Load current values to inputs
   document.getElementById('adminViewsInput').value = STATE.views;
@@ -372,6 +375,34 @@ function setupAdminView() {
   };
 
   renderAdminPhotos();
+}
+
+// Logout controller
+function initLogout() {
+  const logoutBtn = document.getElementById('logoutBtn');
+  logoutBtn.addEventListener('click', () => {
+    localStorage.removeItem('birthday_user');
+    STATE.currentUser = null;
+    
+    // Reset Navigation
+    document.getElementById('loginTrigger').textContent = '🎂';
+    logoutBtn.classList.add('hidden');
+
+    // Reset Shanitah View
+    document.getElementById('specialMessageContainer').classList.add('hidden');
+    document.getElementById('secretLetter').classList.add('hidden');
+    document.getElementById('unlockMsgBtn').classList.remove('hidden');
+
+    // Reset Admin Modal View back to login
+    document.getElementById('loginView').classList.remove('hidden');
+    document.getElementById('adminDashboardView').classList.add('hidden');
+    
+    // Clear login inputs
+    document.getElementById('usernameInput').value = '';
+    document.getElementById('passwordInput').value = '';
+
+    alert("Logged out successfully!");
+  });
 }
 
 // Render administrative photo list with delete button triggers
