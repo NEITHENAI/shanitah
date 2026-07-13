@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday Shanitah! ✨</title>
+  <!-- Google Fonts: Quicksand for bubbly feel, Playfair Display for elegant headings -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,400&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+  
+  <!-- Firebase Compatibility Library (Works on file:// and http:// protocols) -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+</head>
+<body>
+
+  <!-- Floating Bubbles Background -->
+  <div class="bubble-bg" id="bubbleBg"></div>
+
+  <header class="header">
+    <div class="logo-area">
+      <span class="logo-emoji">💜</span>
+      <span class="logo-text">shanitah.love</span>
+    </div>
+    <nav class="nav-links">
+      <a href="#about" class="nav-link active">Home</a>
+      <a href="#gallery" class="nav-link">Album</a>
+      <a href="#wishes" class="nav-link">Wishes</a>
+      <!-- Cake button only, she knows what to do -->
+      <button class="btn-cake" id="loginTrigger" aria-label="Secret Portal">🎂</button>
+    </nav>
+  </header>
+
+  <!-- Shanitah Special Message Section (Visible only when logged in as Shanitah) -->
+  <div id="specialMessageContainer" class="hidden">
+    <div class="container message-container">
+      <div class="hero-bubble special-bubble">
+        <div class="badge">A Message For You, Shanitah 💜</div>
+        <button class="btn-primary" id="unlockMsgBtn">✨ Unlock Secret Letter ✨</button>
+        <div class="secret-letter hidden" id="secretLetter">
+          <p>Shanitah,</p>
+          <p>just wanna say thank you for being the most amazing friend I could ever ask for. Thank you for listening to my stories, my random rants, thank you for being there every time I needed someone to talk to, someone who wouldn't judge, someone who simply stays.</p>
+          <p>Nothing can really express how lucky and grateful I am to have you in my life. You make the hard days easier and the good days even brighter. You're the kind of friend people spend years hoping to find, and somehow I got to call you mine.</p>
+          <p>Please remember that I'm always here for you too — if you ever need a place to rest your thoughts or a shoulder to lean on. You're never alone.</p>
+          <p>I love you sooo much, Shanitah. Your presence in my life is an absolute blessing. I am grateful for school for giving me a friend like you 😭😭👐👐👐 You are my blessing, Shanitah.</p>
+          <p>Happy birthday….. May this new season come with countless blessings and favour. Though we are miles apart 😭😭😭👐, you are so loved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main class="container">
+    <!-- Hero / Intro -->
+    <section id="about" class="section hero-section">
+      <div class="hero-bubble">
+        <div class="badge">Happy Birthday, Shanitah! ✨</div>
+        <h1 class="hero-title">Happy Birthday to a <span class="highlight">Beautiful Soul</span></h1>
+        <p class="hero-subtitle">
+          Today is all about celebrating you, Shanitah! Wishing you a day filled with laughter, love, and all the magic the universe has to offer. Thank you for being such a wonderful presence in our lives.
+        </p>
+        <div class="heart-pulse">💖</div>
+      </div>
+    </section>
+
+    <!-- Stats Dashboard (Airbnb Bubble Nature) -->
+    <section class="section stats-section">
+      <div class="section-header">
+        <h2>Live Celebrations Tracker</h2>
+        <p>Watch the love grow in real-time!</p>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon">👁️</div>
+          <div class="stat-value" id="viewCount">0</div>
+          <div class="stat-label">Gradual Live Views</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🎂</div>
+          <div class="stat-value" id="wishCount">0</div>
+          <div class="stat-label">Wishes Sent</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">💥</div>
+          <div class="stat-value" id="crashCount">0</div>
+          <div class="stat-label">Hearts Crashed / Crushes</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Album Carousel Slider Section -->
+    <section id="gallery" class="section gallery-section">
+      <div class="section-header">
+        <h2>Shanitah's Memory Lane</h2>
+        <p>A collection of some of her best moments.</p>
+      </div>
+
+      <div class="carousel-container">
+        <div class="carousel" id="photoSlider">
+          <!-- Slides will be inserted dynamically -->
+          <div class="slide active">
+            <div class="placeholder-slide">
+              <span class="placeholder-icon">📸</span>
+              <p>No photos uploaded yet.</p>
+            </div>
+          </div>
+        </div>
+        <button class="carousel-btn prev-btn" id="prevBtn">⟨</button>
+        <button class="carousel-btn next-btn" id="nextBtn">⟩</button>
+        <div class="carousel-dots" id="carouselDots"></div>
+      </div>
+    </section>
+
+    <!-- Wishes Board -->
+    <section id="wishes" class="section wishes-section">
+      <div class="section-header">
+        <h2>Leave a Wish for Shanitah</h2>
+        <p>Drop a cute message to make her day even brighter!</p>
+      </div>
+
+      <div class="wishes-layout">
+        <!-- Wish form -->
+        <div class="wish-form-card">
+          <h3>Write a Message ✍️</h3>
+          <form id="wishForm">
+            <div class="input-group">
+              <label for="senderName">Your Name</label>
+              <input type="text" id="senderName" placeholder="Who is writing?">
+            </div>
+            <div class="checkbox-group">
+              <input type="checkbox" id="anonymousWish">
+              <label for="anonymousWish">Post Unidentified (Anonymous)</label>
+            </div>
+            <div class="input-group">
+              <label for="senderMessage">Your Wish</label>
+              <textarea id="senderMessage" required placeholder="Write something sweet for Shanitah..."></textarea>
+            </div>
+            <button type="submit" class="btn-primary w-full">Send Wish 💜</button>
+          </form>
+        </div>
+
+        <!-- Wishes List -->
+        <div class="wishes-list-container">
+          <h3>Wishes Board ✨</h3>
+          <div class="wishes-list" id="wishesList">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2026 Crafted with 💜 for Shanitah's Birthday.</p>
+  </footer>
+
+  <!-- Admin/Login Modal -->
+  <div class="modal-backdrop" id="loginModal">
+    <div class="modal-content">
+      <button class="modal-close" id="modalClose">&times;</button>
+      
+      <!-- Login View -->
+      <div id="loginView">
+        <h2>Birthday Portal Login 🔒</h2>
+        <p>Enter your details to view secret content or configure the site.</p>
+        
+        <div class="input-group">
+          <label for="usernameInput">Username / Email</label>
+          <input type="text" id="usernameInput" placeholder="Enter username or admin email">
+        </div>
+        
+        <div class="input-group">
+          <label for="passwordInput">Password</label>
+          <input type="password" id="passwordInput" placeholder="Enter password">
+        </div>
+        
+        <button class="btn-primary w-full" id="loginBtn">Login</button>
+        <p class="error-msg" id="loginError"></p>
+      </div>
+
+      <!-- Admin Control Panel View (Hidden initially) -->
+      <div id="adminDashboardView" class="hidden">
+        <h2>Shanitah's Admin Panel 🎨</h2>
+        <p>Modify counts and add/remove photos in Firestore.</p>
+        
+        <hr>
+
+        <h3>Manipulate Live Statistics 📊</h3>
+        <div class="admin-stats-inputs">
+          <div class="input-group">
+            <label for="adminViewsInput">Views</label>
+            <input type="number" id="adminViewsInput">
+          </div>
+          <div class="input-group">
+            <label for="adminWishesInput">Wishes</label>
+            <input type="number" id="adminWishesInput">
+          </div>
+          <div class="input-group">
+            <label for="adminCrashesInput">Crashes</label>
+            <input type="number" id="adminCrashesInput">
+          </div>
+        </div>
+        <button class="btn-primary w-full" id="updateStatsBtn">Save Stats Modifications</button>
+
+        <hr>
+
+        <h3>Upload New Photo to Album 📤</h3>
+        <div class="input-group">
+          <label for="imageUpload" class="file-upload-label">
+            Choose Photo
+            <input type="file" id="imageUpload" accept="image/*">
+          </label>
+          <p class="upload-tip">Selected image will be added to the shared Firestore database.</p>
+        </div>
+        
+        <h3>Album Photos</h3>
+        <div class="admin-photo-grid" id="adminPhotoGrid">
+          <!-- Dynamically populated with delete buttons -->
+        </div>
+
+        <hr>
+
+        <h3>Wishes Controls</h3>
+        <button class="btn-secondary" id="clearWishesBtn">Clear All Wishes Database</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Standard app.js -->
+  <script src="app.js"></script>
+</body>
+</html>
