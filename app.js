@@ -43,6 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initWishSubmission();
   initLogout();
   initClickableStats();
+  initLightbox();
 });
 
 // 1. Generate bubbles
@@ -62,7 +63,7 @@ function generateFloatingBubbles() {
   }
 }
 
-// 2. Stats Dashboard Realtime Sync (NO auto-simulation increments anymore)
+// 2. Stats Dashboard Realtime Sync
 function initStatsSync() {
   const viewEl = document.getElementById('viewCount');
   const wishEl = document.getElementById('wishCount');
@@ -176,6 +177,11 @@ function renderSlider() {
     img.src = src;
     img.alt = `Birthday memory ${index + 1}`;
     
+    // Lightbox click action
+    img.addEventListener('click', () => {
+      openLightbox(src);
+    });
+    
     slide.appendChild(img);
     slider.appendChild(slide);
 
@@ -216,7 +222,22 @@ function initSliderControls() {
   }, 6000);
 }
 
-// 6. Submit Wishes
+// 6. Image Lightbox
+function initLightbox() {
+  const lightbox = document.getElementById('imageLightbox');
+  lightbox.addEventListener('click', () => {
+    lightbox.classList.remove('show');
+  });
+}
+
+function openLightbox(src) {
+  const lightbox = document.getElementById('imageLightbox');
+  const lightboxImg = document.getElementById('lightboxImg');
+  lightboxImg.src = src;
+  lightbox.classList.add('show');
+}
+
+// 7. Submit Wishes
 function initWishSubmission() {
   const wishForm = document.getElementById('wishForm');
   wishForm.addEventListener('submit', async (e) => {
@@ -249,7 +270,7 @@ function initWishSubmission() {
   });
 }
 
-// 7. Login & Authenticated Views
+// 8. Login & Authenticated Views
 function initLoginForm() {
   const loginTrigger = document.getElementById('loginTrigger');
   const loginModal = document.getElementById('loginModal');

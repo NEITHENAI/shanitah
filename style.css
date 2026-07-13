@@ -422,6 +422,12 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  cursor: zoom-in;
+  transition: var(--transition-smooth);
+}
+
+.slide img:hover {
+  filter: brightness(0.95);
 }
 
 .placeholder-slide {
@@ -711,6 +717,44 @@ body {
   margin-top: 0.5rem;
   font-size: 0.9rem;
   font-weight: 600;
+}
+
+/* Elegant Lightbox View */
+.lightbox {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(142, 68, 173, 0.08); /* slight purple tint */
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  cursor: zoom-out;
+  opacity: 0;
+  transition: opacity 0.3s ease-out;
+}
+
+.lightbox.show {
+  display: flex;
+  opacity: 1;
+}
+
+.lightbox img {
+  max-width: 90%;
+  max-height: 85%;
+  border-radius: 1.5rem;
+  box-shadow: var(--shadow-bubble);
+  transform: scale(0.9);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid var(--card-border);
+}
+
+.lightbox.show img {
+  transform: scale(1);
 }
 
 /* File Upload styling */
