@@ -860,25 +860,34 @@ hr {
   }
 
   .nav-links {
-    gap: 0.5rem;
+    gap: 0.4rem;
   }
 
   .nav-link {
-    padding: 0.3rem 0.6rem;
-    font-size: 0.9rem;
+    padding: 0.2rem 0.5rem;
+    font-size: 0.85rem;
   }
 
   .btn-cake {
-    font-size: 1.8rem;
+    font-size: 1.6rem;
   }
   
   .hero-title {
-    font-size: 2.2rem;
+    font-size: 2rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
   }
   
   .hero-bubble {
     padding: 1.5rem;
     border-radius: 1.5rem;
+  }
+
+  .section-header h2 {
+    font-size: 1.8rem;
   }
 
   .admin-stats-inputs {
@@ -893,5 +902,9 @@ hr {
   .modal-content {
     padding: 1.5rem;
     border-radius: 1.5rem;
+  }
+
+  .carousel-container {
+    aspect-ratio: 4 / 3;
   }
 }
