@@ -12,7 +12,7 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-// State model (Setting defaults to 0 so the admin has total control from the database)
+// State model
 const STATE = {
   views: 0,
   wishesCount: 0,
@@ -29,8 +29,9 @@ const DEFAULT_PHOTOS = [
   "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&q=80&w=800"
 ];
 
-// Document reference for single global stats document
-const statsDocRef = db.collection("stats").doc("global");
+// Document reference for single global stats document (Isolated to global_v2)
+// This prevents old versions of app.js cached in other tabs from writing increments to this document.
+const statsDocRef = db.collection("stats").doc("global_v2");
 
 document.addEventListener('DOMContentLoaded', () => {
   generateFloatingBubbles();
@@ -89,7 +90,6 @@ function initStatsSync() {
 }
 
 // 3. Click to increment stats (Adds 1 to Firestore on click)
-// Added stopPropagation to prevent double triggers if children are clicked
 function initClickableStats() {
   const viewsCard = document.getElementById('viewsStatCard');
   const wishesCard = document.getElementById('wishesStatCard');

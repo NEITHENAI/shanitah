@@ -195,35 +195,35 @@ body {
   width: 100%;
 }
 
-/* Layout Container & Sections */
+/* Layout Container & Sections - Fluid spacing for all screens */
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem 5% 5rem 5%;
+  padding: clamp(1rem, 3vw, 2.5rem) 5% clamp(2.5rem, 5vw, 5rem) 5%;
 }
 
 .section {
-  margin-bottom: 5rem;
+  margin-bottom: clamp(3rem, 8vw, 6rem);
 }
 
 .section-header {
   text-align: center;
-  margin-bottom: 2.5rem;
+  margin-bottom: clamp(1.5rem, 4vw, 2.5rem);
 }
 
 .section-header h2 {
   font-family: 'Playfair Display', serif;
-  font-size: 2.5rem;
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
   color: var(--primary-dark);
   margin-bottom: 0.5rem;
 }
 
 .section-header p {
   color: var(--text-muted);
-  font-size: 1.1rem;
+  font-size: clamp(0.95rem, 2vw, 1.15rem);
 }
 
-/* Hero Section / Special Message */
+/* Hero Section / Special Message - Scale nicely on desktops and mobile */
 .hero-section {
   display: flex;
   justify-content: center;
@@ -236,10 +236,11 @@ body {
   border: 1px solid var(--card-border);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  padding: 3rem;
+  padding: clamp(1.5rem, 5vw, 3.5rem);
   border-radius: var(--radius-bubble);
   box-shadow: var(--shadow-bubble);
   max-width: 800px;
+  width: 100%;
   text-align: center;
   position: relative;
   transition: var(--transition-smooth);
@@ -262,13 +263,13 @@ body {
   padding: 0.4rem 1rem;
   border-radius: 1rem;
   font-weight: 700;
-  font-size: 0.9rem;
+  font-size: clamp(0.8rem, 1.5vw, 0.95rem);
   margin-bottom: 1.5rem;
 }
 
 .hero-title {
   font-family: 'Playfair Display', serif;
-  font-size: 3.2rem;
+  font-size: clamp(2rem, 5vw, 3.2rem);
   color: var(--text-main);
   margin-bottom: 1.5rem;
   line-height: 1.2;
@@ -282,7 +283,7 @@ body {
 }
 
 .hero-subtitle {
-  font-size: 1.2rem;
+  font-size: clamp(1rem, 2vw, 1.25rem);
   color: var(--text-muted);
   margin-bottom: 2rem;
 }
@@ -313,7 +314,7 @@ body {
 
 .secret-letter {
   margin-top: 1.5rem;
-  font-size: 1.15rem;
+  font-size: clamp(1rem, 2vw, 1.15rem);
   line-height: 1.8;
   color: var(--text-main);
   animation: fadeIn 0.8s ease-out;
@@ -337,7 +338,7 @@ body {
   border: 1px solid var(--card-border);
   backdrop-filter: blur(15px);
   -webkit-backdrop-filter: blur(15px);
-  padding: 2.5rem 2rem;
+  padding: clamp(1.8rem, 4vw, 2.8rem) clamp(1.2rem, 3vw, 2rem);
   border-radius: var(--radius-bubble);
   box-shadow: var(--shadow-md);
   text-align: center;
@@ -361,12 +362,12 @@ body {
 }
 
 .stat-icon {
-  font-size: 2.5rem;
+  font-size: clamp(2rem, 4vw, 2.6rem);
   margin-bottom: 1rem;
 }
 
 .stat-value {
-  font-size: 3.5rem;
+  font-size: clamp(2.5rem, 6vw, 3.6rem);
   font-weight: 700;
   color: var(--primary-color);
   line-height: 1;
@@ -374,7 +375,7 @@ body {
 }
 
 .stat-label {
-  font-size: 1.1rem;
+  font-size: clamp(0.95rem, 2vw, 1.15rem);
   font-weight: 600;
   color: var(--text-muted);
 }
@@ -383,6 +384,7 @@ body {
 .carousel-container {
   position: relative;
   max-width: 900px;
+  width: 100%;
   margin: 0 auto;
   border-radius: var(--radius-bubble);
   overflow: hidden;
@@ -458,8 +460,8 @@ body {
   background: rgba(255, 255, 255, 0.7);
   backdrop-filter: blur(5px);
   border: none;
-  width: 3.5rem;
-  height: 3.5rem;
+  width: clamp(2.8rem, 5vw, 3.5rem);
+  height: clamp(2.8rem, 5vw, 3.5rem);
   border-radius: 50%;
   font-size: 1.5rem;
   color: var(--primary-dark);
@@ -478,8 +480,8 @@ body {
   transform: translateY(-50%) scale(1.1);
 }
 
-.prev-btn { left: 1.5rem; }
-.next-btn { right: 1.5rem; }
+.prev-btn { left: clamp(0.8rem, 2vw, 1.5rem); }
+.next-btn { right: clamp(0.8rem, 2vw, 1.5rem); }
 
 .carousel-dots {
   position: absolute;
@@ -856,7 +858,7 @@ hr {
   }
   
   .logo-text {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
   }
 
   .nav-links {
@@ -865,29 +867,16 @@ hr {
 
   .nav-link {
     padding: 0.2rem 0.5rem;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
   }
 
   .btn-cake {
-    font-size: 1.6rem;
-  }
-  
-  .hero-title {
-    font-size: 2rem;
-  }
-
-  .hero-subtitle {
-    font-size: 1rem;
-    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
   }
   
   .hero-bubble {
     padding: 1.5rem;
     border-radius: 1.5rem;
-  }
-
-  .section-header h2 {
-    font-size: 1.8rem;
   }
 
   .admin-stats-inputs {
@@ -906,5 +895,16 @@ hr {
 
   .carousel-container {
     aspect-ratio: 4 / 3;
+  }
+}
+
+/* Landscape/Tablet Dimensions Optimization */
+@media (min-width: 601px) and (max-width: 1024px) {
+  .stats-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+  .carousel-container {
+    aspect-ratio: 16 / 9;
   }
 }
