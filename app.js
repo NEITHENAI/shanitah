@@ -12,11 +12,11 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-// State model
+// State model (Setting defaults to 0 so the admin has total control from the database)
 const STATE = {
-  views: 1050,
-  wishesCount: 660,
-  crashesCount: 270,
+  views: 0,
+  wishesCount: 0,
+  crashesCount: 0,
   photos: [],
   wishes: [],
   currentSlide: 0,
@@ -73,12 +73,12 @@ function initStatsSync() {
   statsDocRef.onSnapshot((snapshot) => {
     if (snapshot.exists) {
       const data = snapshot.data();
-      STATE.views = data.views || 1050;
-      STATE.wishesCount = data.wishesCount || 660;
-      STATE.crashesCount = data.crashesCount || 270;
+      STATE.views = data.views || 0;
+      STATE.wishesCount = data.wishesCount || 0;
+      STATE.crashesCount = data.crashesCount || 0;
     } else {
-      // Create defaults
-      statsDocRef.set({ views: 1050, wishesCount: 660, crashesCount: 270 });
+      // Create defaults at 0. Admin will edit this in the panel to be 1050, 660, 270, etc.
+      statsDocRef.set({ views: 0, wishesCount: 0, crashesCount: 0 });
     }
     
     // Render on screen
@@ -89,22 +89,23 @@ function initStatsSync() {
 }
 
 // 3. Click to increment stats (Adds 1 to Firestore on click)
+// Added stopPropagation to prevent double triggers if children are clicked
 function initClickableStats() {
   const viewsCard = document.getElementById('viewsStatCard');
   const wishesCard = document.getElementById('wishesStatCard');
   const crushCard = document.getElementById('crushStatCard');
 
-  viewsCard.addEventListener('click', () => {
+  viewsCard.addEventListener('click', (e) => {
     const nextVal = STATE.views + 1;
     statsDocRef.update({ views: nextVal }).catch(e => console.warn(e));
   });
 
-  wishesCard.addEventListener('click', () => {
+  wishesCard.addEventListener('click', (e) => {
     const nextVal = STATE.wishesCount + 1;
     statsDocRef.update({ wishesCount: nextVal }).catch(e => console.warn(e));
   });
 
-  crushCard.addEventListener('click', () => {
+  crushCard.addEventListener('click', (e) => {
     const nextVal = STATE.crashesCount + 1;
     statsDocRef.update({ crashesCount: nextVal }).catch(e => console.warn(e));
   });
