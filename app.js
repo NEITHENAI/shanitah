@@ -63,7 +63,7 @@ function generateFloatingBubbles() {
   }
 }
 
-// 2. Stats Dashboard Realtime Sync
+// 2. Stats Dashboard Realtime Sync (NO auto-simulation increments)
 function initStatsSync() {
   const viewEl = document.getElementById('viewCount');
   const wishEl = document.getElementById('wishCount');
@@ -225,6 +225,13 @@ function initSliderControls() {
 // 6. Image Lightbox
 function initLightbox() {
   const lightbox = document.getElementById('imageLightbox');
+  const lightboxImg = document.getElementById('lightboxImg');
+  
+  // Prevent click on the image from closing it, only overlay clicks close it
+  lightboxImg.addEventListener('click', (e) => {
+    e.stopPropagation();
+  });
+  
   lightbox.addEventListener('click', () => {
     lightbox.classList.remove('show');
   });
